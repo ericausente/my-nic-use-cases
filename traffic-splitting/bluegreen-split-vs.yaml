@@ -1,0 +1,21 @@
+kind: VirtualServer
+metadata:
+  name: bluegreen-vs
+spec:
+  host: nginxplusnic.kushikimi.xyz
+  upstreams:
+  - name: greenbullet
+    service: greenbullet-svc
+    port: 80
+  - name: bluebullet
+    service: bluebullet-svc
+    port: 80
+  routes:
+  - path: /
+    splits:
+    - weight: 99
+      action:
+        pass: greenbullet
+    - weight: 1
+      action:
+        pass: bluebullet
