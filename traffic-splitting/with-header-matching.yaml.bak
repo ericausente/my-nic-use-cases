@@ -1,0 +1,28 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: bluegreen
+spec:
+  host: bluegreen.example.com
+  upstreams:
+  - name: blue
+    service: bluebullet-svc
+    port: 80
+  - name: green
+    service: greenbullet-svc
+    port: 80
+  routes:
+  - path: /
+    matches:
+    - conditions:
+      - header: user
+        value: testgroup
+      splits:
+      - weight: 90
+        action:
+          pass: blue
+      - weight: 10
+        action:
+          pass: green
+    action:
+      pass: green
