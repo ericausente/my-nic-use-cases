@@ -1,0 +1,22 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: secure-app-virtual-server
+  annotations:
+    nginx.org/ssl-services: "my-service"
+spec:
+  host: main.kushikimi.xyz
+  tls:
+    secret: main-kushikimi-xyz-secret
+    redirect:
+      enable: true
+  upstreams:
+  - name: my-service
+    service: my-service
+    port: 443
+    tls:
+      enable: true
+  routes:
+  - path: /
+    action: 
+      pass: my-service
