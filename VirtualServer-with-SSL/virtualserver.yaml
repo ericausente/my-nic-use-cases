@@ -2,8 +2,6 @@ apiVersion: k8s.nginx.org/v1
 kind: VirtualServer
 metadata:
   name: secure-app-virtual-server
-  annotations:
-    nginx.org/ssl-services: "my-service"
 spec:
   host: main.kushikimi.xyz
   tls:
